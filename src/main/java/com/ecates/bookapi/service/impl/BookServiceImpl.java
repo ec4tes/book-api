@@ -3,6 +3,7 @@ package com.ecates.bookapi.service.impl;
 import com.ecates.bookapi.dto.BookRequestDto;
 import com.ecates.bookapi.dto.BookResponseDto;
 import com.ecates.bookapi.entity.Book;
+import com.ecates.bookapi.mapper.BookMapper;
 import com.ecates.bookapi.repository.BookRepository;
 import com.ecates.bookapi.service.BookService;
 import org.springframework.stereotype.Service;
@@ -15,25 +16,18 @@ import java.util.Optional;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository, BookMapper bookMapper) {
         this.bookRepository = bookRepository;
+        this.bookMapper = bookMapper;
     }
 
     @Override
     public List<BookResponseDto> getAllBooks() {
         List<Book> books = bookRepository.findAll();
-        List<BookResponseDto> responseDtoList = new ArrayList<>();
+        return bookMapper.toResponseDtoList(books);
 
-        for (Book book: books){
-            responseDtoList.add(BookResponseDto.builder()
-                    .id(book.getId())
-                    .name(book.getName())
-                    .author(book.getAuthot())
-                    .build()
-            );
-        }
-        return responseDtoList;
     }
 
     @Override
@@ -41,12 +35,7 @@ public class BookServiceImpl implements BookService {
         Optional<Book> optionalBook = bookRepository.findById(id);
 
         if (optionalBook.isPresent()){
-            Book book = optionalBook.get();
-            return  BookResponseDto.builder()
-                    .id(book.getId())
-                    .name(book.getName())
-                    .author(book.getAuthot())
-                    .build();
+            return  bookMapper.toResponseDto(optionalBook.get());
 
 
         }
@@ -56,17 +45,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponseDto addBook(BookRequestDto bookRequestDto) {
-        Book book = Book.builder()
-                .name(bookRequestDto.getName())
-                .authot(bookRequestDto.getAuthor())
-                .build();
+        Book book = bookMapper.toEntity(bookRequestDto);
         Book savedBook = bookRepository.save(book);
-        return BookResponseDto.builder()
-                .id(savedBook.getId())
-                .name(savedBook.getName())
-                .author(savedBook.getAuthot())
-                .build();
-
+        return bookMapper.toResponseDto(savedBook);
     }
 
     @Override
@@ -82,16 +63,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookResponseDto> searchBookByName(String name) {
         List<Book> books = bookRepository.findByNameContainingIgnoreCase(name);
-        List<BookResponseDto> responseDtoList = new ArrayList<>();
-
-        for (Book book : books){
-            responseDtoList.add(new BookResponseDto(
-                    book.getId(),
-                    book.getName(),
-                    book.getAuthot()
-            ));
-        }
-        return responseDtoList;
+        return bookMapper.toResponseDtoList(books);
 
     }
 }

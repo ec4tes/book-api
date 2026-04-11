@@ -14,15 +14,15 @@ public class Book {
     private Long id;
 
     private String name;
-    private String authot;
+    private String author;
 
     public Book() {
     }
 
-    public Book(Long id, String name, String authot) {
+    public Book(Long id, String name, String author) {
         this.id = id;
         this.name = name;
-        this.authot = authot;
+        this.author = author;
     }
 
     public Long getId() {
@@ -41,11 +41,11 @@ public class Book {
         this.name = name;
     }
 
-    public String getAuthot() {
-        return authot;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthot(String authot) {
-        this.authot = authot;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
