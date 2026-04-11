@@ -26,11 +26,12 @@ public class BookServiceImpl implements BookService {
         List<BookResponseDto> responseDtoList = new ArrayList<>();
 
         for (Book book: books){
-            responseDtoList.add(new BookResponseDto(
-                    book.getId(),
-                    book.getName(),
-                    book.getAuthot()
-            ));
+            responseDtoList.add(BookResponseDto.builder()
+                    .id(book.getId())
+                    .name(book.getName())
+                    .author(book.getAuthot())
+                    .build()
+            );
         }
         return responseDtoList;
     }
@@ -41,11 +42,13 @@ public class BookServiceImpl implements BookService {
 
         if (optionalBook.isPresent()){
             Book book = optionalBook.get();
-            return new BookResponseDto(
-                    book.getId(),
-                    book.getName(),
-                    book.getAuthot()
-            );
+            return  BookResponseDto.builder()
+                    .id(book.getId())
+                    .name(book.getName())
+                    .author(book.getAuthot())
+                    .build();
+
+
         }
         return null;
 
@@ -53,15 +56,16 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponseDto addBook(BookRequestDto bookRequestDto) {
-        Book book =new Book();
-        book.setName(bookRequestDto.getName());
-        book.setAuthot(bookRequestDto.getAuthor());
+        Book book = Book.builder()
+                .name(bookRequestDto.getName())
+                .authot(bookRequestDto.getAuthor())
+                .build();
         Book savedBook = bookRepository.save(book);
-        return new BookResponseDto(
-                savedBook.getId(),
-                savedBook.getName(),
-                savedBook.getAuthot()
-        );
+        return BookResponseDto.builder()
+                .id(savedBook.getId())
+                .name(savedBook.getName())
+                .author(savedBook.getAuthot())
+                .build();
 
     }
 

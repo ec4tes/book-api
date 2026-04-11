@@ -1,5 +1,8 @@
 package com.ecates.bookapi.dto;
 
+import lombok.Builder;
+
+@Builder
 public class BookResponseDto {
     private Long id;
     private String name;
