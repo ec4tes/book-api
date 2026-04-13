@@ -16,5 +16,13 @@ public interface BookService {
 
     List<BookResponseDto> searchBookByName(String name);
 
+    List<BookResponseDto> searchBooksByAuthor(String author);
+
+    BookResponseDto getBookByExactName(String name);
+
+    boolean existsBookByName(String name);
+
+    List<BookResponseDto> searchBooksByNameAndAuthor(String name, String author);
+
 
 }

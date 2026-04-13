@@ -3,6 +3,7 @@ package com.ecates.bookapi.controller;
 import com.ecates.bookapi.dto.BookRequestDto;
 import com.ecates.bookapi.dto.BookResponseDto;
 import com.ecates.bookapi.service.BookService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,6 +59,29 @@ public class BookController {
     @GetMapping("/search")
     public ResponseEntity<List<BookResponseDto>> searchBooks(@RequestParam String name) {
         return ResponseEntity.ok(bookService.searchBookByName(name));
+    }
+
+
+    @GetMapping("/author/books")
+    public ResponseEntity<List<BookResponseDto>> searchAuthorBooks(@RequestParam String author){
+        return ResponseEntity.ok(bookService.searchBooksByAuthor(author));
+    }
+
+    @GetMapping("/name/book")
+    public ResponseEntity<BookResponseDto> searchBookName(@RequestParam String name){
+        return ResponseEntity.ok(bookService.getBookByExactName(name));
+    }
+
+    @GetMapping("book/ispresent")
+    public ResponseEntity<Boolean> isPresent(@RequestParam String name){
+        boolean b = bookService.existsBookByName(name);
+        return ResponseEntity.ok(b);
+    }
+
+    @GetMapping("/nameAndAutthor")
+    public ResponseEntity<List<BookResponseDto>> serachNameAuthor(@RequestParam String name, String author){
+        List<BookResponseDto> responseDtoList = bookService.searchBooksByNameAndAuthor(name, author);
+        return ResponseEntity.ok(responseDtoList);
     }
 
 

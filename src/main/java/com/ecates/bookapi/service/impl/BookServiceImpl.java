@@ -66,4 +66,35 @@ public class BookServiceImpl implements BookService {
         return bookMapper.toResponseDtoList(books);
 
     }
+    /// ///////////////////////////
+    @Override
+    public List<BookResponseDto> searchBooksByAuthor(String author) {
+        List<Book> books = bookRepository.findByAuthorContainingIgnoreCase(author);
+        return bookMapper.toResponseDtoList(books);
+
+    }
+
+    @Override
+    public BookResponseDto getBookByExactName(String name) {
+
+        Optional<Book> book = bookRepository.findByNameIgnoreCase(name);
+        if (book.isPresent()){
+            return bookMapper.toResponseDto(book.get());
+        }
+        return null;
+
+    }
+
+
+
+    @Override
+    public boolean existsBookByName(String name) {
+        return bookRepository.existsByNameIgnoreCase(name);
+    }
+
+    @Override
+    public List<BookResponseDto> searchBooksByNameAndAuthor(String name, String author) {
+        List<Book> books = bookRepository.findByNameContainingIgnoreCaseAndAuthorContainsIgnoreCase(name, author);
+        return bookMapper.toResponseDtoList(books);
+    }
 }
