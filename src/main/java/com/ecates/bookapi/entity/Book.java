@@ -1,51 +1,29 @@
 package com.ecates.bookapi.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Builder;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 
 @Entity
-@Builder
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@SuperBuilder
+@Getter@Setter@NoArgsConstructor@AllArgsConstructor
+@Table(name = "books")
+public class Book extends BaseEntity{
 
     private String name;
-    private String author;
+    private String isbn;
+    private Integer pageCount;
 
-    public Book() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Author author;
 
-    public Book(Long id, String name, String author) {
-        this.id = id;
-        this.name = name;
-        this.author = author;
-    }
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+    @ManyToOne
+    @JoinColumn(name = "publisher_id")
+    private Publisher publisher;
 }

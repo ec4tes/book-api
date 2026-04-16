@@ -1,7 +1,8 @@
 package com.ecates.bookapi.service;
 
-import com.ecates.bookapi.dto.BookRequestDto;
-import com.ecates.bookapi.dto.BookResponseDto;
+import com.ecates.bookapi.dto.request.BookRequestDto;
+import com.ecates.bookapi.dto.response.BookResponseDto;
+import com.ecates.bookapi.entity.Author;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface BookService {
 
     BookResponseDto addBook(BookRequestDto bookRequestDto);
 
-    String deleteBook(Long id);
+    void deleteBook(Long id);
 
     List<BookResponseDto> searchBookByName(String name);
 
@@ -23,6 +24,9 @@ public interface BookService {
     boolean existsBookByName(String name);
 
     List<BookResponseDto> searchBooksByNameAndAuthor(String name, String author);
+
+    BookResponseDto updateBook(Long id, BookRequestDto bookRequestDto);
+
 
 
 }

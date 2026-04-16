@@ -1,7 +1,7 @@
 package com.ecates.bookapi.mapper;
 
-import com.ecates.bookapi.dto.BookRequestDto;
-import com.ecates.bookapi.dto.BookResponseDto;
+import com.ecates.bookapi.dto.request.BookRequestDto;
+import com.ecates.bookapi.dto.response.BookResponseDto;
 import com.ecates.bookapi.entity.Book;
 import org.mapstruct.Mapper;
 
@@ -15,5 +15,6 @@ public interface BookMapper {
     List<BookResponseDto> toResponseDtoList(List<Book> books);
 
     Book toEntity(BookRequestDto bookRequestDto);
+
 
 }
